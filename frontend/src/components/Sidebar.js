@@ -35,7 +35,7 @@ export default function Sidebar() {
         background: "#E5E2FF",
         color: "white",
         width: "200px",
-        height: "100vh",
+        height: "200vh",
         padding: "10px",
         fontFamily: "Lora, serif",
       }}
