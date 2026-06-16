@@ -196,10 +196,9 @@ class App extends Component {
         >
           {item.title}
         </span>
-        <span>
+        <span> 
           <span className={`badge bg-${item.resolved ? "success" : "secondary"} mr-2`}>
-            {item.resolved ? "Resolved" : "Open"}
-          </span>
+           </span>
           <button
             className="btn btn-secondary mr-2"
             onClick={() => this.editSuggestion(item)}
@@ -218,66 +217,69 @@ class App extends Component {
   };
 
   render() {
-    return (
-      <Layout>
-        <main className="container">
-          <h1 className="text-white text-uppercase text-center my-4">
-            Todo app
-          </h1>
+  return (
+    <Layout>
+      <main className="container">
+        <h1 className="text-white text-uppercase text-center my-4">
+          Todo app
+        </h1>
 
-          <div className="row">
-            <div className="col-md-6 col-sm-10 mx-auto p-0">
-              <div className="card p-3">
-                <div className="mb-4">
-                  <button className="btn btn-primary" onClick={this.createItem}>
-                    Suggesto! Add a task
-                  </button>
-                </div>
-
-                {this.renderTabList()}
-
-                <ul className="list-group list-group-flush border-top-0">
-                  {this.renderItems()}
-                </ul>
+        <div className="row">
+          {/* Todo */}
+          <div className="col-md-6 col-sm-12 p-2">
+            <div className="card p-3">
+              <div className="mb-4">
+                <button className="btn btn-primary" onClick={this.createItem}>
+                  Suggesto! Add a task
+                </button>
               </div>
+
+              {this.renderTabList()}
+
+              <ul className="list-group list-group-flush border-top-0">
+                {this.renderItems()}
+              </ul>
             </div>
           </div>
-
-          <div className="row mt-5">
-            <div className="col-md-6 col-sm-10 mx-auto p-0">
-              <div className="card p-3">
-                <div className="d-flex align-items-center justify-content-between mb-2">
-                  <h3 className="m-0">Suggestions</h3>
-                  <button className="btn btn-primary" onClick={this.createSuggestion}>
-                    Add Suggestion
-                  </button>
-                </div>
-                <ul className="list-group list-group-flush border-top-0">
-                  {this.renderSuggestions()}
-                </ul>
+          {/* Suggestions */}
+          <div className="col-md-6 col-sm-12 p-2">
+            <div className="card p-3">
+              <div className="d-flex align-items-center justify-content-between mb-2">
+                <h3 className="m-0">Suggestions</h3>
+                <button
+                  className="btn btn-primary"
+                  onClick={this.createSuggestion}
+                >
+                  Add Suggestion
+                </button>
               </div>
+
+              <ul className="list-group list-group-flush border-top-0">
+                {this.renderSuggestions()}
+              </ul>
             </div>
           </div>
+        </div>
 
-          {this.state.modal ? (
-            <Modal
-              activeItem={this.state.activeItem}
-              toggle={this.toggle}
-              onSave={this.handleSubmit}
-            />
-          ) : null}
+        {this.state.modal ? (
+          <Modal
+            activeItem={this.state.activeItem}
+            toggle={this.toggle}
+            onSave={this.handleSubmit}
+          />
+        ) : null}
 
-          {this.state.suggestionModal ? (
-            <SuggestionModal
-              activeItem={this.state.activeSuggestion}
-              toggle={this.toggleSuggestion}
-              onSave={this.handleSuggestionSubmit}
-            />
-          ) : null}
-        </main>
-      </Layout>
-    );
-  }
+        {this.state.suggestionModal ? (
+          <SuggestionModal
+            activeItem={this.state.activeSuggestion}
+            toggle={this.toggleSuggestion}
+            onSave={this.handleSuggestionSubmit}
+          />
+        ) : null}
+      </main>
+    </Layout>
+  );
+}
 }
 
 export default App;
