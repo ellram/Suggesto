@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Modal from "./components/Modal";
+import SuggestionModal from "./components/SuggestionModal";
 import axios from "axios";
 import Layout from "./components/layout";
 
@@ -15,17 +16,33 @@ class App extends Component {
         description: "",
         completed: false,
       },
+      // Suggestions state
+      suggestionList: [],
+      suggestionModal: false,
+      activeSuggestion: {
+        title: "",
+        description: "",
+        resolved: false,
+      },
     };
   }
 
   componentDidMount() {
     this.refreshList();
+    this.refreshSuggestions();
   }
 
   refreshList = () => {
     axios
       .get("/api/todos/")
       .then((res) => this.setState({ todoList: res.data }))
+      .catch((err) => console.log(err));
+  };
+
+  refreshSuggestions = () => {
+    axios
+      .get("/api/suggestions/")
+      .then((res) => this.setState({ suggestionList: res.data }))
       .catch((err) => console.log(err));
   };
 
@@ -47,6 +64,31 @@ class App extends Component {
       .then((res) => this.refreshList());
   };
 
+  // Suggestions handlers
+  toggleSuggestion = () => {
+    this.setState({ suggestionModal: !this.state.suggestionModal });
+  };
+
+  handleSuggestionSubmit = (item) => {
+    this.toggleSuggestion();
+
+    if (item.id) {
+      axios
+        .put(`/api/suggestions/${item.id}/`, item)
+        .then(() => this.refreshSuggestions());
+      return;
+    }
+    axios
+      .post("/api/suggestions/", item)
+      .then(() => this.refreshSuggestions());
+  };
+
+  handleSuggestionDelete = (item) => {
+    axios
+      .delete(`/api/suggestions/${item.id}/`)
+      .then(() => this.refreshSuggestions());
+  };
+
   handleDelete = (item) => {
     axios
       .delete(`/api/todos/${item.id}/`)
@@ -61,6 +103,21 @@ class App extends Component {
 
   editItem = (item) => {
     this.setState({ activeItem: item, modal: !this.state.modal });
+  };
+
+  createSuggestion = () => {
+    const item = { title: "", description: "", resolved: false };
+    this.setState({
+      activeSuggestion: item,
+      suggestionModal: !this.state.suggestionModal,
+    });
+  };
+
+  editSuggestion = (item) => {
+    this.setState({
+      activeSuggestion: item,
+      suggestionModal: !this.state.suggestionModal,
+    });
   };
 
   displayCompleted = (status) => {
@@ -127,6 +184,39 @@ class App extends Component {
     ));
   };
 
+  renderSuggestions = () => {
+    return this.state.suggestionList.map((item) => (
+      <li
+        key={item.id}
+        className="list-group-item d-flex justify-content-between align-items-center"
+      >
+        <span
+          className={`mr-2 ${item.resolved ? "text-decoration-line-through" : ""}`}
+          title={item.description}
+        >
+          {item.title}
+        </span>
+        <span>
+          <span className={`badge bg-${item.resolved ? "success" : "secondary"} mr-2`}>
+            {item.resolved ? "Resolved" : "Open"}
+          </span>
+          <button
+            className="btn btn-secondary mr-2"
+            onClick={() => this.editSuggestion(item)}
+          >
+            Edit
+          </button>
+          <button
+            className="btn btn-danger"
+            onClick={() => this.handleSuggestionDelete(item)}
+          >
+            Delete
+          </button>
+        </span>
+      </li>
+    ));
+  };
+
   render() {
     return (
       <Layout>
@@ -153,11 +243,35 @@ class App extends Component {
             </div>
           </div>
 
+          <div className="row mt-5">
+            <div className="col-md-6 col-sm-10 mx-auto p-0">
+              <div className="card p-3">
+                <div className="d-flex align-items-center justify-content-between mb-2">
+                  <h3 className="m-0">Suggestions</h3>
+                  <button className="btn btn-primary" onClick={this.createSuggestion}>
+                    Add Suggestion
+                  </button>
+                </div>
+                <ul className="list-group list-group-flush border-top-0">
+                  {this.renderSuggestions()}
+                </ul>
+              </div>
+            </div>
+          </div>
+
           {this.state.modal ? (
             <Modal
               activeItem={this.state.activeItem}
               toggle={this.toggle}
               onSave={this.handleSubmit}
+            />
+          ) : null}
+
+          {this.state.suggestionModal ? (
+            <SuggestionModal
+              activeItem={this.state.activeSuggestion}
+              toggle={this.toggleSuggestion}
+              onSave={this.handleSuggestionSubmit}
             />
           ) : null}
         </main>
