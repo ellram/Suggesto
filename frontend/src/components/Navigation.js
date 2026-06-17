@@ -9,7 +9,7 @@ export default function Navigation() {
     border: "none",
     borderRadius: "8px",
     fontSize: "30px",
-    fontFamily: "Lora, serif",
+    fontFamily: "Verdana, Geneva, Tahoma, sans-serif",
     cursor: "pointer",
     padding: "0px 12px",
     transition: "all 0.2s ease",

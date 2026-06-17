@@ -46,7 +46,7 @@ export default function Sidebar() {
         borderRadius: "16px",
         boxShadow: "0 10px 30px rgba(0,0,0,0.15)",
         padding: "10px",
-        fontFamily: "Lora, serif",
+        fontFamily: "Verdana, Geneva, Tahoma, sans-serif",
       }}
     >
       <div style={{ marginTop: "60px", padding: "0 10px"}}>

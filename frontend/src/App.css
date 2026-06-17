@@ -45,7 +45,8 @@ main {
 
 .suggestion-column {
   padding: 0.5rem;
-  font-family: "Lora", serif;
+  /* Use global font (Verdana) from index.css */
+  font-family: inherit;
 }
 
 .suggestion-card {

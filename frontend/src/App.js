@@ -133,7 +133,7 @@ renderItem = (item) => {
           <h1 className="text-white text-uppercase text-center my-4">
             Suggestions
           </h1>
-          {/* NYE FORSLAG */}
+          {/* Nye forslag */}
           <div className="row g-3">
             <div className="col-12 col-md-4 suggestion-column">
               <div id="new-suggestions" className="card suggestion-card"
