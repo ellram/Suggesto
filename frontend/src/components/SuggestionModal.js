@@ -61,16 +61,19 @@ export default class SuggestionModal extends Component {
                 placeholder="Enter suggestion description"
               />
             </FormGroup>
-            <FormGroup check>
-              <Label check>
-                <Input
-                  type="checkbox"
-                  name="resolved"
-                  checked={this.state.activeItem.resolved}
-                  onChange={this.handleChange}
-                />
-                Resolved
-              </Label>
+            <FormGroup>
+              <Label for="suggestion-status">Status</Label>
+              <Input
+                type="select"
+                id="suggestion-status"
+                name="status"
+                value={this.state.activeItem.status}
+                onChange={this.handleChange}
+              >
+                <option value="new">New</option>
+                <option value="approved">Approved</option>
+                <option value="rejected">Rejected</option>
+              </Input>
             </FormGroup>
           </Form>
         </ModalBody>

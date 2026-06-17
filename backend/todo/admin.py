@@ -1,6 +1,7 @@
 from django.contrib import admin
 from .models import Suggestion
+@admin.register(Suggestion)
 class SuggestionAdmin(admin.ModelAdmin):
-    list_display = ('title', 'resolved', 'created_at', 'updated_at')
-
-admin.site.register(Suggestion, SuggestionAdmin)
+    list_display = ("title", "status", "created_at", "updated_at")
+    list_filter = ("status",)
+    search_fields = ("title", "description")

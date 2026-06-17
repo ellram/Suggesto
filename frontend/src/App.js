@@ -12,7 +12,7 @@ class App extends Component {
       activeSuggestion: {
         title: "",
         description: "",
-        resolved: false,
+        status: "new",
       },
     };
   }
@@ -29,16 +29,16 @@ class App extends Component {
   };
 
   toggleSuggestion = () => {
-    this.setState({
-      suggestionModal: !this.state.suggestionModal,
-    });
+    this.setState((prev) => ({
+      suggestionModal: !prev.suggestionModal,
+    }));
   };
 
-  toggleResolved = (item) => {
+  setStatus = (item, status) => {
     axios
       .put(`/api/suggestions/${item.id}/`, {
         ...item,
-        resolved: !item.resolved,
+        status,
       })
       .then(() => this.refreshSuggestions());
   };
@@ -46,16 +46,11 @@ class App extends Component {
   handleSuggestionSubmit = (item) => {
     this.toggleSuggestion();
 
-    if (item.id) {
-      axios
-        .put(`/api/suggestions/${item.id}/`, item)
-        .then(() => this.refreshSuggestions());
-      return;
-    }
+    const request = item.id
+      ? axios.put(`/api/suggestions/${item.id}/`, item)
+      : axios.post("/api/suggestions/", item);
 
-    axios
-      .post("/api/suggestions/", item)
-      .then(() => this.refreshSuggestions());
+    request.then(() => this.refreshSuggestions());
   };
 
   handleSuggestionDelete = (item) => {
@@ -65,14 +60,12 @@ class App extends Component {
   };
 
   createSuggestion = () => {
-    const item = {
-      title: "",
-      description: "",
-      resolved: false,
-    };
-
     this.setState({
-      activeSuggestion: item,
+      activeSuggestion: {
+        title: "",
+        description: "",
+        status: "new",
+      },
       suggestionModal: true,
     });
   };
@@ -84,63 +77,54 @@ class App extends Component {
     });
   };
 
-  renderSuggestions = () => {
-    return this.state.suggestionList.map((item) => (
+  renderItem = (item) => {
+    return (
       <li
         key={item.id}
         className="list-group-item d-flex justify-content-between align-items-center"
       >
-        <span
-          className={`mr-2 ${
-            item.resolved ? "text-decoration-line-through" : ""
-          }`}
-          title={item.description}
-        >
-          {item.title}
-        </span>
+        <span title={item.description}>{item.title}</span>
 
         <span>
           <button
             className="btn btn-secondary mr-2"
             onClick={() => this.editSuggestion(item)}
-            style={{
-                      background: "#E5E2FF",
-                      color: "black",
-                      border: "none",
-                      borderRadius: "8px",
-                      fontSize: "16px",
-                      fontFamily: "Lora, serif",
-                      cursor: "pointer",
-                      padding: "6px 12px",
-                      transition: "all 0.2s ease",
-                      marginRight: "10px",
-                    }}
           >
             Edit
           </button>
 
           <button
-            className="btn btn-danger"
-            onClick={() => this.handleSuggestionDelete(item)}
-            style={{
-                      background: "#E5E2FF",
-                      color: "black",
-                      border: "none",
-                      borderRadius: "8px",
-                      fontSize: "16px",
-                      fontFamily: "Lora, serif",
-                      cursor: "pointer",
-                      padding: "6px 12px",
-                      transition: "all 0.2s ease",
-                      marginRight: "10px",
-                    }}
+            className="btn btn-success mr-2"
+            onClick={() => this.setStatus(item, "approved")}
           >
-            Delete
+            Godkjenn
+          </button>
+
+          <button
+            className="btn btn-danger"
+            onClick={() => this.setStatus(item, "rejected")}
+          >
+            Avvis
           </button>
         </span>
       </li>
-    ));
+    );
   };
+
+  renderNewSuggestions = () =>
+    this.state.suggestionList
+      .filter((item) => item.status === "new")
+      .map((item) => this.renderItem(item));
+
+  renderApprovedSuggestions = () =>
+    this.state.suggestionList
+      .filter((item) => item.status === "approved")
+      .map((item) => this.renderItem(item));
+
+  renderRejectedSuggestions = () =>
+    this.state.suggestionList
+      .filter((item) => item.status === "rejected")
+      .map((item) => this.renderItem(item));
 
   render() {
     return (
@@ -150,53 +134,61 @@ class App extends Component {
             Suggestions
           </h1>
 
-          <div className="row"
-          style={{
-            background: "#E5E2FF",
-            color: "white",
-            width: "flex",
-            height: "flex",
-            padding: "flex",
-            fontFamily: "Lora, serif",
-          }}>
+          {/* NYE FORSLAG */}
+          <div className="row">
             <div className="col-12 p-2">
               <div className="card p-3">
-                <div className="d-flex align-items-center justify-content-between mb-3">
+                <div className="d-flex justify-content-between align-items-center mb-3">
                   <h3 className="m-0">Nye forslag</h3>
 
                   <button
                     className="btn btn-primary"
                     onClick={this.createSuggestion}
-                    style={{
-                      background: "#E5E2FF",
-                      color: "black",
-                      border: "none",
-                      borderRadius: "8px",
-                      fontSize: "16px",
-                      fontFamily: "Lora, serif",
-                      cursor: "pointer",
-                      padding: "6px 12px",
-                      transition: "all 0.2s ease",
-                    }}
                   >
                     Legg til forslag +
                   </button>
                 </div>
 
                 <ul className="list-group list-group-flush border-top-0">
-                  {this.renderSuggestions()}
+                  {this.renderNewSuggestions()}
                 </ul>
               </div>
             </div>
           </div>
 
-          {this.state.suggestionModal ? (
+          {/* GODKJENTE */}
+          <div className="row mt-4">
+            <div className="col-12 p-2">
+              <div className="card p-3">
+                <h3>Godkjente forslag</h3>
+
+                <ul className="list-group list-group-flush border-top-0">
+                  {this.renderApprovedSuggestions()}
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          {/* AVVIST */}
+          <div className="row mt-4">
+            <div className="col-12 p-2">
+              <div className="card p-3">
+                <h3>Avvist</h3>
+
+                <ul className="list-group list-group-flush border-top-0">
+                  {this.renderRejectedSuggestions()}
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          {this.state.suggestionModal && (
             <SuggestionModal
               activeItem={this.state.activeSuggestion}
               toggle={this.toggleSuggestion}
               onSave={this.handleSuggestionSubmit}
             />
-          ) : null}
+          )}
         </main>
       </Layout>
     );
