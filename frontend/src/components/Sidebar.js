@@ -19,12 +19,12 @@ export default function Sidebar() {
     setExistingUsers((prev) => [...prev, user]);
   }
 
-  // tilgjengelige = alle minus eksisterende
+  //tilgjengelige = alle minus eksisterende (tenker at eksisterende kan hentes fra cerebrum eller lignende)
   const selectableUsers = availableUsers.filter(
     (u) => !existingUsers.includes(u)
   );
 
-  // filtrert søk
+  //filtrert søk
   const filteredUsers = selectableUsers.filter((u) =>
     u.toLowerCase().includes(query.toLowerCase())
   );
@@ -34,13 +34,21 @@ export default function Sidebar() {
       style={{
         background: "#E5E2FF",
         color: "white",
-        width: "200px",
-        height: "200vh",
+        width: "150px",
+
+        height: "flex",
+        overflowY: "auto",
+
+        position: "fixed",
+        top: "150px",
+        left: "20px",
+
+        borderRadius: "16px",
+        boxShadow: "0 10px 30px rgba(0,0,0,0.15)",
         padding: "10px",
         fontFamily: "Lora, serif",
       }}
     >
-      {/* SØK + TILFØY */}
       <div style={{ marginTop: "60px", padding: "0 10px"}}>
         <div style={{ color: "black", marginBottom: "5px"}}>
           Legg til personer
@@ -91,7 +99,7 @@ export default function Sidebar() {
         </ul>
       </div>
 
-      {/* EKSISTERENDE BRUKERE */}
+      {/* eksisterende brukere feltet (tanken er å kunne koble dette til cerebrum feks) */}
       <div style={{ marginTop: "30px", padding: "0 10px" }}>
         <div style={{ color: "black", marginBottom: "5px" }}>
           Eksisterende brukere
