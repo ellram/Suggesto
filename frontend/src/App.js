@@ -136,7 +136,7 @@ renderItem = (item) => {
           {/* NYE FORSLAG */}
           <div className="row g-3">
             <div className="col-12 col-md-4 suggestion-column">
-              <div className="card suggestion-card"
+              <div id="new-suggestions" className="card suggestion-card"
                 style={{
                   backgroundColor: "#E5E2FF",
                 }}
@@ -169,7 +169,9 @@ renderItem = (item) => {
                   backgroundColor: "#CAFFED",
                 }}
               >
-                <h3 className="suggestion-title">Godkjente forslag</h3>
+                <div className="suggestion-header">
+                  <h3 className="suggestion-title">Godkjente forslag</h3>
+                </div>
                 <ul className="list-group list-group-flush suggestion-list">
                   {this.renderApprovedSuggestions()}
                 </ul>
@@ -182,7 +184,9 @@ renderItem = (item) => {
                   backgroundColor: "#FFC0C0",
                 }}
               >
-                <h3 className="suggestion-title">Avvist</h3>
+                <div className="suggestion-header">
+                  <h3 className="suggestion-title">Avvist</h3>
+                </div>
 
                 <ul className="list-group list-group-flush suggestion-list">
                   {this.renderRejectedSuggestions()}
