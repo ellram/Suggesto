@@ -15,7 +15,6 @@ export default function Header() {
             cursor: "pointer", 
             border: "none",
             color: "#000000",
-            fontFamily: "Lora, serif",
           }}
         >
           Logg inn
