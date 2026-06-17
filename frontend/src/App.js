@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import SuggestionModal from "./components/SuggestionModal";
 import axios from "axios";
 import Layout from "./components/layout";
+import "./App.css";
 
 class App extends Component {
   constructor(props) {
@@ -77,39 +78,38 @@ class App extends Component {
     });
   };
 
-  renderItem = (item) => {
-    return (
-      <li
-        key={item.id}
-        className="list-group-item d-flex justify-content-between align-items-center"
-      >
-        <span title={item.description}>{item.title}</span>
+renderItem = (item) => {
+  return (
+    <li key={item.id} className="list-group-item suggestion-item">
+      <div className="suggestion-text" title={item.description}>
+        {item.title}
+      </div>
 
-        <span>
-          <button
-            className="btn btn-secondary mr-2"
-            onClick={() => this.editSuggestion(item)}
-          >
-            Edit
-          </button>
+      <div className="suggestion-actions">
+        <button
+          className="btn btn-secondary btn-sm"
+          onClick={() => this.editSuggestion(item)}
+        >
+          Edit
+        </button>
 
-          <button
-            className="btn btn-success mr-2"
-            onClick={() => this.setStatus(item, "approved")}
-          >
-            Godkjenn
-          </button>
+        <button
+          className="btn btn-success btn-sm"
+          onClick={() => this.setStatus(item, "approved")}
+        >
+          Godkjenn
+        </button>
 
-          <button
-            className="btn btn-danger"
-            onClick={() => this.setStatus(item, "rejected")}
-          >
-            Avvis
-          </button>
-        </span>
-      </li>
-    );
-  };
+        <button
+          className="btn btn-danger btn-sm"
+          onClick={() => this.setStatus(item, "rejected")}
+        >
+          Avvis
+        </button>
+      </div>
+    </li>
+  );
+};
 
   renderNewSuggestions = () =>
     this.state.suggestionList
@@ -133,49 +133,58 @@ class App extends Component {
           <h1 className="text-white text-uppercase text-center my-4">
             Suggestions
           </h1>
-
           {/* NYE FORSLAG */}
-          <div className="row">
-            <div className="col-12 p-2">
-              <div className="card p-3">
-                <div className="d-flex justify-content-between align-items-center mb-3">
-                  <h3 className="m-0">Nye forslag</h3>
+          <div className="row g-3">
+            <div className="col-12 col-md-4 suggestion-column">
+              <div className="card suggestion-card"
+                style={{
+                  backgroundColor: "#E5E2FF",
+                }}
+              >
+                <div className="suggestion-header">
+                  <h3 className="suggestion-title">Nye forslag</h3>
 
                   <button
                     className="btn btn-primary"
                     onClick={this.createSuggestion}
+                    style={{
+                      fontSize: "12px",
+                      border: "none",
+                      backgroundColor: "#9f92ff",
+                    }}
                   >
-                    Legg til forslag +
+                    +
                   </button>
                 </div>
 
-                <ul className="list-group list-group-flush border-top-0">
+                <ul className="list-group list-group-flush suggestion-list">
                   {this.renderNewSuggestions()}
                 </ul>
               </div>
             </div>
-          </div>
 
-          {/* GODKJENTE */}
-          <div className="row mt-4">
-            <div className="col-12 p-2">
-              <div className="card p-3">
-                <h3>Godkjente forslag</h3>
-
-                <ul className="list-group list-group-flush border-top-0">
+            <div className="col-12 col-md-4 suggestion-column">
+              <div className="card suggestion-card"
+                style={{
+                  backgroundColor: "#CAFFED",
+                }}
+              >
+                <h3 className="suggestion-title">Godkjente forslag</h3>
+                <ul className="list-group list-group-flush suggestion-list">
                   {this.renderApprovedSuggestions()}
                 </ul>
               </div>
             </div>
-          </div>
 
-          {/* AVVIST */}
-          <div className="row mt-4">
-            <div className="col-12 p-2">
-              <div className="card p-3">
-                <h3>Avvist</h3>
+            <div className="col-12 col-md-4 suggestion-column">
+              <div className="card suggestion-card"
+                style={{
+                  backgroundColor: "#FFC0C0",
+                }}
+              >
+                <h3 className="suggestion-title">Avvist</h3>
 
-                <ul className="list-group list-group-flush border-top-0">
+                <ul className="list-group list-group-flush suggestion-list">
                   {this.renderRejectedSuggestions()}
                 </ul>
               </div>

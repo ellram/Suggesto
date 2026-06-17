@@ -34,10 +34,11 @@ export default function Sidebar() {
       style={{
         background: "#E5E2FF",
         color: "white",
-        width: "200px",
+        width: "150px",
         height: "200vh",
         padding: "10px",
         fontFamily: "Lora, serif",
+        
       }}
     >
       {/* SØK + TILFØY */}

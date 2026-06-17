@@ -7,7 +7,7 @@ export default function Layout({ children }) {
     <div>
       <Header />
       <div style={{ display: "flex"}}>
-        <Sidebar />
+        <Sidebar style={{ width: "150px" }} />
         <main style={{ flex: 1, padding: "50px" }}>
           <div style={{ maxWidth: "1200px" }}>
             <Navigation />
