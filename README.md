@@ -1,4 +1,6 @@
 # Suggesto
+For å se Desgin malen jeg har lagd tilhørende prosjektet, se følgende figma lenke. Ta kontakt dersom lenken ikke fungerer: 
+- https://www.figma.com/design/l0K6bl2QZhhpKFjX630qXl/Suggesto?m=auto&t=8xpUcdMdRKSADB3p-6
 
 En enkel fullstack-app med Django REST API (backend) og React (frontend). Dette er hvordan du kjører prosjektet lokalt på macOS og Windows. Denne beskrivelsen viser hvordan å sette det opp uten docker på sin egen maskin, men jeg har begynt et docker oppsett for videre CD/CI. En kort Docker-seksjon finnes nederst, men merk at Docker-oppsettet i repoet trenger noen justeringer for å fungere.
 
