@@ -1,31 +1,35 @@
 # Suggesto
 
-En enkel fullstack-app med Django REST API (backend) og React (frontend). Denne veiledningen viser hvordan du kjører prosjektet lokalt på macOS og Windows – uten behov for Docker. En kort Docker-seksjon finnes nederst, men merk at Docker-oppsettet i repoet trenger noen justeringer for å fungere.
+En enkel fullstack-app med Django REST API (backend) og React (frontend). Dette er hvordan du kjører prosjektet lokalt på macOS og Windows. Denne beskrivelsen viser hvordan å sette det opp uten docker på sin egen maskin, men jeg har begynt et docker oppsett for videre CD/CI. En kort Docker-seksjon finnes nederst, men merk at Docker-oppsettet i repoet trenger noen justeringer for å fungere.
 
-Innhold
-- Forutsetninger
-- Rask oppstart (anbefalt)
+NB: merk at dette er en MVP for å vise en forslagstavle. Det er laget design modeller til videre utvikling dersom jeg har mer tid. Det er som er funksjonelt er
+- forslagstavlen
+- API-et
+- Funksjonalitet for å kunne endre status på kortene
+
+## Innhold
+- Forutsetninger og moduler du må ha på maskinen
+- Start av web-appen
   - Backend (Django)
   - Frontend (React)
-- API-endepunkter og testing
-- Feilsøking
-- Valgfritt: Docker (eksperimentelt)
+- API-endepunkter og Arkiteturskisser
+- Litt om Docker her for videre oppsett mot andre tjenester
 
-## Forutsetninger
+## 1) Forutsetninger:
 
 - macOS eller Windows
-- Node.js LTS (18+ anbefales) og npm
+- Node.js LTS og npm
   - Sjekk: `node -v` og `npm -v`
-- Python 3.10–3.12 (anbefalt). Prosjektet bruker SQLite i utvikling, så du trenger ikke å installere databaser lokalt.
+- Python 3.10–3.12. Prosjektet bruker SQLite, så du trenger ikke å installere databaser lokalt.
   - Sjekk: `python3 --version` (macOS) eller `py -3 --version` (Windows)
 
-Merk om Pipfile: Repoet inneholder en Pipfile med `python_version = "3.14"`, som ikke er nødvendig for lokal kjøring og kan feile dersom du ikke har akkurat denne tolkeren. Følg stegene under med et vanlig virtuelt miljø i stedet.
+Merk om Pipfile og virtuelt miljø: Repoet inneholder en Pipfile med `python_version = "3.14"`, som ikke er nødvendig for lokal kjøring og kan feile dersom du ikke har akkurat denne tolkeren. Følg stegene under med et vanlig virtuelt miljø i stedet.
 
-## Rask oppstart (anbefalt)
+## 2) Oppstart:
 
-Disse stegene starter backend (Django) på http://localhost:8000 og frontend (React) på http://localhost:3000. CORS er allerede konfigurert for localhost:3000.
+Disse stegene starter backend (Django) på http://localhost:8000 og frontend (React) på http://localhost:3000.
 
-### 1) Backend (Django)
+### a) Backend (Django)
 
 Kjør kommandoene fra repo-roten (mappen som inneholder `backend/` og `frontend/`).
 
@@ -53,7 +57,7 @@ Kjør kommandoene fra repo-roten (mappen som inneholder `backend/` og `frontend/
 
 Backend er nå tilgjengelig på http://localhost:8000
 
-### 2) Frontend (React)
+### b) Frontend (React)
 
 Åpne en ny terminal-fane i prosjektroten.
 
@@ -64,14 +68,15 @@ Backend er nå tilgjengelig på http://localhost:8000
 
 Frontend kjører på http://localhost:3000 og proxyer API-kall til http://localhost:8000 (konfigurert i `frontend/package.json`).
 
-## API-endepunkter og testing
+## 3) API-endepunkter 
 
 Tilgjengelige endepunkter (uten autentisering i utvikling):
-- Liste/skap forslag: `GET/POST http://localhost:8000/api/suggestions/`
-- Oppdatér/slett forslag: `PUT/DELETE http://localhost:8000/api/suggestions/{id}/`
-- JWT (hvis du slår på autentisering senere):
+- List/Create forslag: `GET/POST http://localhost:8000/api/suggestions/`
+- Update/Delete forslag: `PUT/DELETE http://localhost:8000/api/suggestions/{id}/`
+- JWT (hvis du slår på autentisering senere): (Joason Web tokens)
   - Hent token: `POST http://localhost:8000/api/token/`
   - Oppfrisk token: `POST http://localhost:8000/api/token/refresh/`
+  NB om JWT: jeg måtte slå av autentisering i denne versjonen for å kunne la alle kjøre appen, i et prod miljø ville det vært satt opp atuentisering mot andre kildesystemer. 
 
 Eksempel med curl (opprette forslag):
 ```
@@ -80,20 +85,7 @@ curl -X POST http://localhost:8000/api/suggestions/ \
   -d '{"title": "Ny idé", "description": "Beskrivelse"}'
 ```
 
-## Feilsøking
-
-- Port i bruk
-  - 8000 (backend) eller 3000 (frontend) kan være opptatt. Lukk prosessen eller endre port.
-- CORS-feil i nettleser
-  - Sørg for at frontend kjører på http://localhost:3000. `CORS_ORIGIN_WHITELIST` i Django settings tillater denne opprinnelsen.
-- Node/React feiler ved oppstart
-  - Slett `frontend/node_modules` og `frontend/package-lock.json`, kjør `npm install` igjen.
-- Python-pakker
-  - Sjekk at du har aktivert det virtuelle miljøet (`.venv`).
-- Pipenv/Pipfile
-  - Ignorer Pipfile for lokal utvikling (eller endre den til din Python-versjon dersom du vil bruke Pipenv).
-
-## Valgfritt: Docker (eksperimentelt)
+## 4) Litt om Docker:
 
 Repoet inneholder `docker-compose.yml` og en backend-Dockerfile, men konfigurasjonen er ikke helt i sync per nå:
 - `docker-compose.yml` peker på `build: .` for backend, mens Dockerfile ligger i `backend/backend/Dockerfile`.
@@ -101,7 +93,7 @@ Repoet inneholder `docker-compose.yml` og en backend-Dockerfile, men konfigurasj
 
 Dersom du ønsker Docker-støtte, foreslås følgende forbedringer før bruk:
 1. Endre backend-build i `docker-compose.yml` slik at den peker til korrekt kontekst og Dockerfile, f.eks.:
-   -
+   
    ```yaml
    backend:
      build:
@@ -111,8 +103,4 @@ Dersom du ønsker Docker-støtte, foreslås følgende forbedringer før bruk:
 2. Legg til en `requirements.txt` for backend og bruk den i Dockerfile (eller generer den fra miljøet ditt med `pip freeze > requirements.txt`).
 3. Oppdater `backend/backend/settings.py` til å støtte `DATABASE_URL` (f.eks. ved å bruke `dj-database-url`) dersom du vil bruke Postgres-containere.
 
-Til lokal utvikling anbefales det å bruke stegene i «Rask oppstart» over (SQLite + npm), da de fungerer på både macOS og Windows uten ekstra oppsett.
 
----
-
-Lisens: MIT (eller oppdater etter behov)
