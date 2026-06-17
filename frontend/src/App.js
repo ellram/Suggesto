@@ -1,12 +1,15 @@
 import React, { Component } from "react";
 import SuggestionModal from "./components/SuggestionModal";
-import axios from "axios";
+import axios from "axios"; //dette er HTTP klienten for å gjøre API kallene, bruker axios som js bibliotek 
 import Layout from "./components/layout";
 import "./App.css";
 
+//hovedkomponent for hele applikasjonen
 class App extends Component {
   constructor(props) {
     super(props);
+
+    //lokal state for komponenten
     this.state = {
       suggestionList: [],
       suggestionModal: false,
@@ -18,10 +21,12 @@ class App extends Component {
     };
   }
 
+  //automatisk kalles når komponenten er ferdig lastet
   componentDidMount() {
     this.refreshSuggestions();
   }
 
+  //denne henter alle forslagene fra backend
   refreshSuggestions = () => {
     axios
       .get("/api/suggestions/")
@@ -29,12 +34,14 @@ class App extends Component {
       .catch((err) => console.log(err));
   };
 
+  //åpner og lukker modal for oppretting og migrering 
   toggleSuggestion = () => {
     this.setState((prev) => ({
       suggestionModal: !prev.suggestionModal,
     }));
   };
 
+  //Her oppdaterer vi status på et forslag
   setStatus = (item, status) => {
     axios
       .put(`/api/suggestions/${item.id}/`, {
@@ -44,9 +51,10 @@ class App extends Component {
       .then(() => this.refreshSuggestions());
   };
 
+  //denne hånterer lagring av forslagene (så opprette eller oppdater, hadde lagt til sletting om jeg hadde tid)
   handleSuggestionSubmit = (item) => {
     this.toggleSuggestion();
-
+    //hvis item har id → oppdater eksisterende, ellers opprett nytt
     const request = item.id
       ? axios.put(`/api/suggestions/${item.id}/`, item)
       : axios.post("/api/suggestions/", item);
@@ -54,12 +62,14 @@ class App extends Component {
     request.then(() => this.refreshSuggestions());
   };
 
+  //denne er lagt in for å kunne slette forslagene, jeg har ikke implementert dette ennp
   handleSuggestionDelete = (item) => {
     axios
       .delete(`/api/suggestions/${item.id}/`)
       .then(() => this.refreshSuggestions());
   };
 
+  //state for å kunne lage et nyttforslag 
   createSuggestion = () => {
     this.setState({
       activeSuggestion: {
@@ -71,6 +81,7 @@ class App extends Component {
     });
   };
 
+  //denne er for å kunne redigere på forslaget
   editSuggestion = (item) => {
     this.setState({
       activeSuggestion: item,
@@ -78,6 +89,7 @@ class App extends Component {
     });
   };
 
+//rendrer ett enkelt forslag her et liste-element
 renderItem = (item) => {
   return (
     <li key={item.id} className="list-group-item suggestion-item">
@@ -111,6 +123,7 @@ renderItem = (item) => {
   );
 };
 
+  //filtreringer for å kunne bruke i ulike kolonner her
   renderNewSuggestions = () =>
     this.state.suggestionList
       .filter((item) => item.status === "new")
@@ -126,6 +139,7 @@ renderItem = (item) => {
       .filter((item) => item.status === "rejected")
       .map((item) => this.renderItem(item));
 
+  //her skjer UI
   render() {
     return (
       <Layout>
@@ -133,8 +147,9 @@ renderItem = (item) => {
           <h1 className="text-white text-uppercase text-center my-4">
             Suggestions
           </h1>
-          {/* Nye forslag */}
+          {/* Kolonner for ulike statuser */}
           <div className="row g-3">
+            {/* Nye forslag */}
             <div className="col-12 col-md-4 suggestion-column">
               <div id="new-suggestions" className="card suggestion-card"
                 style={{
@@ -144,6 +159,7 @@ renderItem = (item) => {
                 <div className="suggestion-header">
                   <h3 className="suggestion-title">Nye forslag</h3>
 
+                  {/* Knapp for å opprette nytt forslag */}
                   <button
                     className="btn btn-primary"
                     onClick={this.createSuggestion}
@@ -163,6 +179,7 @@ renderItem = (item) => {
               </div>
             </div>
 
+            {/* Godkjente forslag */}
             <div className="col-12 col-md-4 suggestion-column">
               <div className="card suggestion-card"
                 style={{
@@ -178,6 +195,7 @@ renderItem = (item) => {
               </div>
             </div>
 
+            {/* Avviste forslag */}
             <div className="col-12 col-md-4 suggestion-column">
               <div className="card suggestion-card"
                 style={{
