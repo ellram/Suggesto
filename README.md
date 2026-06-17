@@ -2,7 +2,9 @@
 
 Problemer med å gjennomføre oppsettet? 
 - Har du mattermost kan du sende melding til @ellecr
-- Eller send meg en mail på ellecr@uio.no
+- Send meg en mail på ellecr@uio.no
+
+For tilgang til admin-panelet for DB-en i django, gi beskjed. 
 
 For å se designmalen jeg har lagd tilhørende prosjektet, se følgende figma lenke. Ta kontakt dersom lenken ikke fungerer: 
 - [https://www.figma.com/design/l0K6bl2QZhhpKFjX630qXl/Suggesto?m=auto&t=8xpUcdMdRKSADB3p-6](https://www.figma.com/design/l0K6bl2QZhhpKFjX630qXl/Suggesto?m=auto&t=8xpUcdMdRKSADB3p-1)
@@ -123,7 +125,7 @@ I denne "oppgaven" er det mange valg som er tatt med tanke på hvor mye tid vi h
 - Jeg har valgt å bruke Django i bunn med SQLlite siden dette er standard pakken som Django tilbyr når man skal sette opp en minimal applikkasjon. SQLlite er også mer hensiktsmessig å bruke siden du kan lage lokale modeller der man kan teste modell oppsett og regler, uten å måtte sette opp store tabeller i feks postgreSQL.
 - En siste ting jeg ønsker å trekke frem er at jeg har valgt å lage kort på et slagt kan-ban-board istede for postitlapper. Dersom jeg hadde inplementert flyttbare kort, ville dette vært en kul funksjon, men jeg tror at forvirringen rundt bruken kunne vært større. Her gikk jeg for en enkel og intuitiv design versjon. 
 
-# Videre utvikling og "hvis jeg hadde mer tid"... 
+## Videre utvikling og "hvis jeg hadde mer tid"... 
 Dette prosjektet kunne man jobbet med å utvikle et fullstendig integrasjon som hadde vært koblet mot cerebrum, feide og andre systemer som IT-Hjelp benytter seg av. Det er flere desing messige ting jeg skulle ønske jeg hadde mer tid til å se på, men som har blitt valgt bort fordi det ikke ble nokk tid. 
 
 Her er noen av tingene jeg hadde gjort først for videre utvikling:
