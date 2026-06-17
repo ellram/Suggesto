@@ -115,5 +115,26 @@ Dersom du ønsker Docker-støtte, foreslås følgende forbedringer før bruk:
 3. Oppdater `backend/backend/settings.py` til å støtte `DATABASE_URL` (f.eks. ved å bruke `dj-database-url`) dersom du vil bruke Postgres-containere.
 
 ## 5) Refleksjon til oppgaven (til reviewers ved IT-Hjelp): 
-Kort forklaring av valg du har tatt 
-Hva du eventuelt ville gjort videre med mer tid 
+I denne "oppgaven" er det mange valg som er tatt med tanke på hvor mye tid vi har hatt til disposisjon. Det er tatt valg som har vært "enklere" å implementere og designvalg som er valgt fordi det sparte tid. De valgene jeg vil trekke frem som jeg har gjort i denne prosessen er:
+- Jeg har valgt å implementere en ganske enkel modell i bunn som er da hvordan dataene lagres i SQLlite DB-en. Dette er for å enkelt kunne legge på funksjonallitet så jeg bruker mer tid på å få API-et responsivt mot frontenden enn å ha for kompleks backend med for tunge modeller.
+- Jeg har brukt Django sitt REST framework fordi det er den mest effektive modellen basert på oppdateringer som er kommet og det er mye god dokumentasjon ute om det. I dette prosjektet har det vært et fokus på læring, og derfor har jeg forsøkt å bruke lite KI/ KI-agenter for å løse problemet og heller brukt tid på å lese dokumentasjon (KI har blitt brukt men i andre deler av appen, mer om dette senere).
+- Som min HTTP-klient har jeg brukt js biblioteket "axios" for å gjøre kallene.
+- Jeg har valgt å ikke sette opp denne MVP-en med innlogging eller bruker autentisering. Dette har gjort at jeg kranglet mye med å få lov til å redigere på kortene siden Django-API-et egentlig krever at man sender en ID bakover i URL-en. Dette løste jeg ved å tillate alle innlogginger, noe som ikke er helt trygt eller robust, men grunnet dårlig tid var dette løsningen  jeg endte med.
+- Jeg har valgt å bruke Django i bunn med SQLlite siden dette er standard pakken som Django tilbyr når man skal sette opp en minimal applikkasjon. SQLlite er også mer hensiktsmessig å bruke siden du kan lage lokale modeller der man kan teste modell oppsett og regler, uten å måtte sette opp store tabeller i feks postgreSQL.
+- En siste ting jeg ønsker å trekke frem er at jeg har valgt å lage kort på et slagt kan-ban-board istede for postitlapper. Dersom jeg hadde inplementert flyttbare kort, ville dette vært en kul funksjon, men jeg tror at forvirringen rundt bruken kunne vært større. Her gikk jeg for en enkel og intuitiv design versjon. 
+
+# Videre utvikling og "hvis jeg hadde mer tid"... 
+Dette prosjektet kunne man jobbet med å utvikle et fullstendig integrasjon som hadde vært koblet mot cerebrum, feide og andre systemer som IT-Hjelp benytter seg av. Det er flere desing messige ting jeg skulle ønske jeg hadde mer tid til å se på, men som har blitt valgt bort fordi det ikke ble nokk tid. 
+
+Her er noen av tingene jeg hadde gjort først for videre utvikling:
+- Lagt til mulighet for sletting av kort - dette falt bort fordi jeg ikke fikk tid
+- Sette opp JWT med innlogging mot Feide eller liknende for å kunne gjøre slik at bare admin kan endre status på kortene, mens alle andre "ordniære" brukere kanlegge til kort og forslag.
+- Jeg hadde brukt litt tid på å rydde opp i URL-ene her, og satt opp ryddigere id håndteringer mot API-et.
+- Desing jobben hadde jeg gjort i større grad med fokus på iterasjon, brukertesting og analyse av hva IT-hjelpen faktisk ønsker/trenger. Nå ble det litt "fort gjort", og det ser man ift. layout, farger og visuelle tilgjengelighetsprinsipper. Jeg har forsøkt å lage appen så intuitiv som mulig for å gjøre den enkel å bruke for en førstegangsbruker.
+- Jeg hadde også brukt mer tid på å sette dette opp mot doscker, så man kan integrere dette videre mot andre tjenester og kjøre det på distrubuerte servere rundt på UiO.
+
+I presentasjonen av MVP-en vil jeg fokusere mer på API-designet, interaksjon med appen, figam-designet og generelt om flyten mellom backend og frontent. 
+
+Gi beskjed om noe er uklart med veiledningen for å sette opp web-appen eller om det er noen brutte lenker som ikke funker.
+
+:)
