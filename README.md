@@ -1,6 +1,6 @@
 # Suggesto
 For å se designmalen jeg har lagd tilhørende prosjektet, se følgende figma lenke. Ta kontakt dersom lenken ikke fungerer: 
-- https://www.figma.com/design/l0K6bl2QZhhpKFjX630qXl/Suggesto?m=auto&t=8xpUcdMdRKSADB3p-6
+- [https://www.figma.com/design/l0K6bl2QZhhpKFjX630qXl/Suggesto?m=auto&t=8xpUcdMdRKSADB3p-6](https://www.figma.com/design/l0K6bl2QZhhpKFjX630qXl/Suggesto?m=auto&t=8xpUcdMdRKSADB3p-1)
 
 Skjermbilde av start siden til web-appen:
 ![Startskjerm](frontend/src/images/hovedskjerm)
