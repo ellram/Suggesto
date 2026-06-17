@@ -1,13 +1,9 @@
 from django.shortcuts import render
 from rest_framework import viewsets
-from .serializers import TodoSerializer, SuggestionSerializer
-from .models import Todo, Suggestion
- 
-# Create your views here.
+from .serializers import SuggestionSerializer
+from .models import Suggestion
 
-class TodoView(viewsets.ModelViewSet):
-    serializer_class = TodoSerializer
-    queryset = Todo.objects.all()
+# Create your views here.
  
 class SuggestionView(viewsets.ModelViewSet):
     serializer_class = SuggestionSerializer

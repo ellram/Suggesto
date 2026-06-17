@@ -41,7 +41,7 @@ export default function Sidebar() {
       }}
     >
       {/* SØK + TILFØY */}
-      <div style={{ marginTop: "50px", padding: "0 10px"}}>
+      <div style={{ marginTop: "60px", padding: "0 10px"}}>
         <div style={{ color: "black", marginBottom: "5px"}}>
           Legg til personer
         </div>

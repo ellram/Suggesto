@@ -6,7 +6,6 @@ from todo import views
 
 router = routers.DefaultRouter()
 # Expose explicit endpoints for clarity and to match frontend usage
-router.register(r'todos', views.TodoView, 'todo')
 router.register(r'suggestions', views.SuggestionView, 'suggestion')
 
 urlpatterns = [
