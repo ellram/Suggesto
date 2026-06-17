@@ -24,6 +24,7 @@ NB: merk at dette er en MVP for å vise en forslagstavle. Det er laget design mo
   - Frontend (React)
 - API-endepunkter og Arkiteturskisser
 - Litt om Docker her for videre oppsett mot andre tjenester
+- Refleksjon om prosjektet (relevant for IT-Hjelp evalueringen)
 
 ## 1) Forutsetninger:
 
@@ -113,4 +114,6 @@ Dersom du ønsker Docker-støtte, foreslås følgende forbedringer før bruk:
 2. Legg til en `requirements.txt` for backend og bruk den i Dockerfile (eller generer den fra miljøet ditt med `pip freeze > requirements.txt`).
 3. Oppdater `backend/backend/settings.py` til å støtte `DATABASE_URL` (f.eks. ved å bruke `dj-database-url`) dersom du vil bruke Postgres-containere.
 
-
+## 5) Refleksjon til oppgaven (til reviewers ved IT-Hjelp): 
+Kort forklaring av valg du har tatt 
+Hva du eventuelt ville gjort videre med mer tid 
