@@ -7,7 +7,7 @@ Problemer med å gjennomføre oppsettet?
 For tilgang til admin-panelet for DB-en i django, gi beskjed. 
 
 Modell arkitektur:
-- [Arkitektur tegning](frontend/src/images/model_skisse.png)
+- ![Arkitektur tegning](frontend/src/images/model_skisse.png)
 
 For å se designmalen jeg har lagd tilhørende prosjektet, se følgende figma lenke. Ta kontakt dersom lenken ikke fungerer: 
 - [https://www.figma.com/design/l0K6bl2QZhhpKFjX630qXl/Suggesto?m=auto&t=8xpUcdMdRKSADB3p-6](https://www.figma.com/design/l0K6bl2QZhhpKFjX630qXl/Suggesto?m=auto&t=8xpUcdMdRKSADB3p-1)
